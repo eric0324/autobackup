@@ -13,14 +13,16 @@ if [[ $1 == '-a' ]] || [[ $1 == '--auto' ]]; then
 	#scan & backup
 	for i in "${Package[@]}"; do
 		if [[ $( dpkg -s $i 2> /dev/null | grep Status ) == 'Status: install ok installed' ]]; then
-			#crontab 
 			#echo "$i"
-			BK_TIME="$DESDIR/`date +%Y%m%d`"
-			mkdir $BK_TIME
 			if [[ $i == 'vim' ]]; then
-				mkdir $BK_TIME/vim
-				cp /home/`whoami`/.vimrc $BK_TIME/vim/.vimrc
-			fi	
+				#full backup
+				mkdir $DESDIR/vim_bk
+				cp -p /home/`whoami`/.vimrc $DESDIR/vim_bk/`date +%Y%m%d`.vimrc
+				#crontab -l | { cat; echo "@daily bash `pwd`/vimbk.sh";} | crontab -
+			elif [[ $i == 'ruby' ]]; then
+				mkdir $DESDIR/ruby_bk
+				#crontab
+			fi
 		fi
 	done
 #elif [[ $1 == '-u' ]] || [[ $1 == '--add' ]]; then
