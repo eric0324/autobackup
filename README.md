@@ -1,5 +1,14 @@
-# UNIX_final_project
-## [CS312] UNIX final project
+# [CS312] UNIX final project
+This README would normally document whatever steps are necessary to get the application up and running.
+
+## System dependencies
+* Ubuntu 16.04 LTS
+
+## Configuration
+* run `vimbk.sh` and enjoy it!
+
+
+## Services (job queues, cache servers, search engines, etc.)
 
 `ruby.py -b`:  Backup Ruby env.
 
