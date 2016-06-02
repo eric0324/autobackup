@@ -9,6 +9,8 @@ result = result.replace(")"," ")
 result = result.replace("\n", "##")
 
 f = open('ruby_backup.txt', 'wb')
-print result
 f.write("##")
 f.write(result)
+f.close()
+
+print "Ruby backup success!"
