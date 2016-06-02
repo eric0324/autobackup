@@ -26,6 +26,8 @@ This README would normally document whatever steps are necessary to get the appl
 * `atom.py -b`: Backup Atom env.
 * `atom.py -r <NPM name>`: Install Atom package
 
+* `git.py -b`: Backup Git env.
+* `git.py -r`: Reduce Git env.
 
 ## Contributors
 * [eric0324](https://github.com/eric0324)
