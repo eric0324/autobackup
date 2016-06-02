@@ -10,24 +10,21 @@ This README would normally document whatever steps are necessary to get the appl
 
 ## Services (job queues, cache servers, search engines, etc.)
 
-`ruby.py -b`:  Backup Ruby env.
-
-`ruby.py -r <gem name>`:  Install ruby gem
-
-
-
-`python.py -b`: Backup Python env.
-
-`python.py -r <package name>`: Install Python package
+* `ruby.py -b`:  Backup Ruby env.
+* `ruby.py -r <gem name>`:  Install ruby gem
 
 
 
-`nodejs.py -b`: Backup NodeJS env.
-
-`nodejs.py -r <NPM name>`: Install NPM package
-
+* `python.py -b`: Backup Python env.
+* `python.py -r <package name>`: Install Python package
 
 
-# Contributors
+
+* `nodejs.py -b`: Backup NodeJS env.
+* `nodejs.py -r <NPM name>`: Install NPM package
+
+
+
+## Contributors
 * [eric0324](https://github.com/eric0324)
 * [lck930526](https://github.com/lck930526)
