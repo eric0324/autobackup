@@ -11,7 +11,6 @@ def backup():
     result = result.replace("@", "%%")
     result = result.replace("\n", "##")
     result = result.replace("####", "")
-    print result
     f = open('atom_backup.txt', 'wb')
     f.write("##")
     f.write(result)
