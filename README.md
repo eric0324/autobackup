@@ -1,5 +1,5 @@
 # UNIX_final_project
-[CS312] UNIX final project
+## [CS312] UNIX final project
 
 `ruby.py -b`:  Backup Ruby env.
 
@@ -16,3 +16,9 @@
 `nodejs.py -b`: Backup NodeJS env.
 
 `nodejs.py -r <NPM name>`: Install NPM package
+
+
+
+# Contributors
+* [eric0324](https://github.com/eric0324)
+* [lck930526](https://github.com/lck930526)
