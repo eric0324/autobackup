@@ -28,3 +28,4 @@ This README would normally document whatever steps are necessary to get the appl
 ## Contributors
 * [eric0324](https://github.com/eric0324)
 * [lck930526](https://github.com/lck930526)
+* [s1023350](https://github.com/s1023350)
