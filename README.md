@@ -23,6 +23,8 @@ This README would normally document whatever steps are necessary to get the appl
 * `nodejs.py -b`: Backup NodeJS env.
 * `nodejs.py -r <NPM name>`: Install NPM package
 
+* `atom.py -b`: Backup Atom env.
+* `atom.py -r <NPM name>`: Install Atom package
 
 
 ## Contributors
