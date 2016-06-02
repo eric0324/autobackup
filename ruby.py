@@ -28,10 +28,10 @@ def reinstill():
     result = subprocess.check_output(cmd, shell=True)
 
 
-#Main function 
+#Main function
 argv = sys.argv
 
-if argv[1] == 'backup':
+if argv[1] == '-b':
     backup()
-elif argv[1] == 'reinstall':
+elif argv[1] == '-r':
     reinstall()
