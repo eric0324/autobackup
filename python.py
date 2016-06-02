@@ -34,4 +34,4 @@ argv = sys.argv
 if argv[1] == '-b':
     backup()
 elif argv[1] == '-r':
-    reinstill()
+    reinstall()
