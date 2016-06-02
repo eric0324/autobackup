@@ -8,7 +8,7 @@ This README would normally document whatever steps are necessary to get the appl
 * run `vimbk.sh` and enjoy it!
 
 
-## Services (job queues, cache servers, search engines, etc.)
+## Services
 
 * `ruby.py -b`:  Backup Ruby env.
 * `ruby.py -r <gem name>`:  Install ruby gem
