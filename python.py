@@ -2,17 +2,20 @@ import os
 import subprocess
 import string
 import sys
+import datetime
 
 def backup():
     try:
         cmd = "pip list"
         result = subprocess.check_output(cmd, shell=True)
-        result = result.replace(" (", "%%")
+        result = result.replace(" (", " ")
         result = result.replace(")"," ")
-        result = result.replace("\n", "##")
-
-        f = open('python_backup.txt', 'wb')
-        f.write("##")
+        #result = result.replace("\n", "##")
+        #filepath = "~/env_backup/python_env/"
+        filepath = datetime.datetime.now().strftime('%Y%m%d')
+        #filepath += "_python_backup.txt"
+        f = open(filepath, 'wb')
+        #f.write("##")
         f.write(result)
         f.close()
 
