@@ -6,13 +6,9 @@ import string
 import re
 
 def backup():
-    cmd = "cat ~/.gitconfig"
+    cmd = "cp -p ~/.gitconfig ~/.`whoami`_env/git"
     result = subprocess.check_output(cmd, shell=True)
-    f = open('.gitconfig', 'wb')
-    f.write(result)
-    f.close()
-
-    print "Git env backup success!"
+    #print "Git env backup success!"
 
 
 def reinstall():
@@ -28,3 +24,8 @@ if argv[1] == '-b':
     backup()
 elif argv[1] == '-r':
     reinstall()
+elif argv[1] == '-c':
+    cmd = 'find ~/ -name ".gitconfig" -mtime -1'
+    result = subprocess.check_output(cmd, shell=True)
+    if result == '.gitconfig':
+        backup()
