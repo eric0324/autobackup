@@ -11,8 +11,8 @@ reinstall()
 	cd $DESDIR
 	git checkout $1 vim
 	cp -p $DESDIR/vim ~/.vimrc
-	vim +PluginInstall +qall
 	git checkout HEAD vim
+	vim +PluginInstall +qall
 }
 
 if [[ $1 == '-b' ]]; then
