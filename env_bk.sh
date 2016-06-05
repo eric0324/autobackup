@@ -11,7 +11,7 @@ elif [[ -f $DESDIR ]]; then
 	exit 1
 fi
 
-if [[ $1 == '-a' ]] || [[ $1 == '--auto' ]]; then
+if [[ $1 == '-s' ]] || [[ $1 == '--scan' ]]; then
 	#scan & backup
 	for i in "${Package[@]}"; do
 		if [[ $( dpkg -s $i 2> /dev/null | grep Status ) == 'Status: install ok installed' ]]; then
@@ -20,13 +20,15 @@ if [[ $1 == '-a' ]] || [[ $1 == '--auto' ]]; then
 					bash ./vim.sh -b
 				fi
 				cronCMD+="bash `pwd`/vim.sh -c||"
-				#crontab -l | { cat; echo "@daily bash `pwd`/vimbk.sh";} | crontab -
 			elif [[ $i == 'git' ]]; then
 				if [[ ! -e $DESDIR/gitconfig ]]; then
-					cp -p ~/.gitconfig $DESDIR/gitconfig
+					python ./git.py -b
 				fi
-				cronCMD+="bash `pwd`/git.sh -b;"
+				cronCMD+="python `pwd`/git.py -c;"
 			elif [[ $i == 'ruby' ]]; then
+				if [[ ! -e $DESDIR/ruby ]]; then
+					python ./ruby.py -b
+				fi
 				cronCMD+="python `pwd`/ruby.py -b||"
 			elif [[ $i == 'python' ]]; then
 				cronCMD+="python `pwd`/python.py -b||"
@@ -48,10 +50,9 @@ if [[ $1 == '-a' ]] || [[ $1 == '--auto' ]]; then
 	for n in "${nInstall[@]}" ; do
 		echo "$n is not installed"
 	done
-#elif [[ $1 == '-u' ]] || [[ $1 == '--add' ]]; then
-	#statements	
+	#crontab -l | { cat; echo "@daily bash upload.sh";} | crontab -
 elif [[ $1 == '-l' ]] || [[ $1 == '--list' ]]; then
-	ls -a $DESDIR/
+	ls $DESDIR/
 elif [[ $1 == '-r' ]] || [[ $1 == '--restore' ]]; then
 	if [[ $2 == '' ]]; then
 		cd $DESDIR
@@ -62,25 +63,18 @@ elif [[ $1 == '-r' ]] || [[ $1 == '--restore' ]]; then
 		done
 		printf "input a number: "
 		read num
-		$2=${arr[$((num - 1))]}
 		echo "which day you want to restore"
 		git log --pretty=format:"%s"
 		printf "input date: "
 		read num
-		$3=`git log --pretty=format:"%s %H" | awk /$num/'{print $2}'`
+		set -- "{@:1}" "${arr[$((num - 1))]}" "`git log --pretty=format:"%s %H" | awk /$num/'{print $2}'`"
 		cd -
 	fi
 	if [[ $2 == 'vim' ]]; then
 		bash ./vim.sh -r $3
-	elif [[ $2 == 'python' ]]; then
-		arr=($(awk '{print $1}' $DESDIR/python))
-		for name in "${arr[@]}"; do
-			python ./python.py -r $name
-		done
+	else
+		python ${2}.py -r $3
 	fi
-elif [[ $1 == '-d' ]] || [[ $1 == '--delete' ]]; then
-	echo `ls $DESDIR | grep $2`
-	#rm -rf $2
 else
 	echo "Wrong argument: $1" >&2
 	exit 2
