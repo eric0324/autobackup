@@ -12,8 +12,8 @@ def backup():
         result = result.replace(")"," ")
         #result = result.replace("\n", "##")
         #filepath = "~/env_backup/python_env/"
-        filepath = datetime.datetime.now().strftime('%Y%m%d')
-        #filepath += "_python_backup.txt"
+        #filepath = datetime.datetime.now().strftime('%Y%m%d')
+        filepath += "python"
         f = open(filepath, 'wb')
         #f.write("##")
         f.write(result)
