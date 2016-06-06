@@ -16,9 +16,10 @@ def allBackup():
     vim()
 
 def python():
-    try:
-        filepath = "backup/python.txt"
+    filepath = "backup/python.txt"
 
+    try:
+        print "Start python backup",
         cmd = "pip list"
         result = subprocess.check_output(cmd, shell=True)
         result = result.replace(" (", "%%")
@@ -29,7 +30,7 @@ def python():
         f.write(result)
         f.close()
 
-        print "Python env backup success!"
+        print " ..done"
     except:
         print "Error: Python backup fail"
 
@@ -37,6 +38,7 @@ def ruby():
     filepath = "backup/ruby.txt"
 
     try:
+        print "Start Ruby backup",
         cmd = "gem list --local"
         result = subprocess.check_output(cmd, shell=True)
         result = result.replace(" (", "%%")
@@ -48,7 +50,7 @@ def ruby():
         f.write(result)
         f.close()
 
-        print "Ruby env backup success!"
+        print " ..done"
     except:
         print "Error: Ruby backup fail"
 
@@ -56,6 +58,8 @@ def nodejs():
     filepath = "backup/nodejs.txt"
 
     try:
+        print "Start NodeJS backup",
+
         cmd = "npm ls -g"
         result = subprocess.check_output(cmd, shell=True)
         result = result.replace("@", "%%")
@@ -72,16 +76,17 @@ def nodejs():
         f.write(result)
         f.close()
 
-        print "NodeJS env backup success!"
+        print "Start NodeJS backup ..done"
     except:
         print "Error: NodeJS backup fail"
 
 
 def git():
     try:
+        print "Start Git backup",
         cmd = "cp -p ~/.gitconfig backup"
         result = subprocess.check_output(cmd, shell=True)
-        print "Git env backup success!"
+        print " ..done"
     except:
         print "Error: Git backup fail"
 
@@ -90,6 +95,7 @@ def atom():
     filepath = "backup/atom.txt"
 
     try:
+        print "Start Atom backup",
         cmd = "apm list --bare"
         result = subprocess.check_output(cmd, shell=True)
         result = result.replace("@", "%%")
@@ -100,7 +106,7 @@ def atom():
         f.write(result)
         f.close()
 
-        print "Atom env backup success!"
+        print " ..done"
     except:
         print "Error: Atom backup fail"
 
