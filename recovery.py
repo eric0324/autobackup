@@ -16,7 +16,7 @@ def allRecovery():
     vim()
 
 def python():
-    cmd = "pip freeze | xargs pip uninstall -y"
+    cmd = "sudo pip freeze | sudo xargs pip uninstall -y"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "cat backup/python.txt"
     result = subprocess.check_output(cmd, shell=True)
@@ -28,11 +28,11 @@ def python():
     print "Python env recovery success!"
 
 def ruby():
-    cmd = "gem uninstall -aIx"
+    cmd = "sudo gem uninstall -aIx"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "cat backup/ruby.txt"
     result = subprocess.check_output(cmd, shell=True)
-    result = result.replace("##", "gem install ")
+    result = result.replace("##", "sudo install ")
     result2 = re.sub(r'%%(\d|\.|\s|,)*', "\n", result)
     resul2 = result.replace("x86_64-darwin-14, 3.16.14.11 x86_64-darwin-14", "")
 

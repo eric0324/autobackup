@@ -16,9 +16,9 @@ def allBackup():
     vim()
 
 def python():
-    filepath = "backup/python.txt"
-
     try:
+        filepath = "backup/python.txt"
+
         cmd = "pip list"
         result = subprocess.check_output(cmd, shell=True)
         result = result.replace(" (", "%%")
@@ -87,7 +87,7 @@ def git():
 
 
 def atom():
-    filepath = "backup/atomg.txt"
+    filepath = "backup/atom.txt"
 
     try:
         cmd = "apm list --bare"
@@ -109,20 +109,18 @@ def vim():
 
 #Main function
 
-try:
-    if argv[1] == '-all':
-        allBackup()
-    elif argv[1] == '-python':
-        python()
-    elif argv[1] == '-ruby':
-        ruby()
-    elif argv[1] == '-nodejs':
-        nodejs()
-    elif argv[1] == '-git':
-        git()
-    elif argv[1] == '-atom':
-        atom()
-    elif argv[1] == '-vim':
-        vim()
-except:
-    print "Wrong argument."
+
+if argv[1] == '-all':
+    allBackup()
+elif argv[1] == '-python':
+    python()
+elif argv[1] == '-ruby':
+    ruby()
+elif argv[1] == '-nodejs':
+    nodejs()
+elif argv[1] == '-git':
+    git()
+elif argv[1] == '-atom':
+    atom()
+elif argv[1] == '-vim':
+    vim()
