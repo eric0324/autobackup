@@ -10,24 +10,20 @@ This README would normally document whatever steps are necessary to get the appl
 
 ## Services
 
-* `ruby.py -b`:  Backup Ruby env.
-* `ruby.py -r <gem name>`:  Install ruby gem
+* `ruby.py`:  Backup Ruby env.
+* `python.py`: Backup Python env.
+* `nodejs.py`: Backup NodeJS env.
+* `atom.py`: Backup Atom env.
+* `git.py`: Backup Git env.
 
 
-
-* `python.py -b`: Backup Python env.
-* `python.py -r <package name>`: Install Python package
-
-
-
-* `nodejs.py -b`: Backup NodeJS env.
-* `nodejs.py -r <NPM name>`: Install NPM package
-
-* `atom.py -b`: Backup Atom env.
-* `atom.py -r <NPM name>`: Install Atom package
-
-* `git.py -b`: Backup Git env.
-* `git.py -r`: Reduce Git env.
+* `recovery.py -all`:  Recovery all env.
+* `recovery.py -Python`:  Recovery python env.
+* `recovery.py -Ruby`:  Recovery ruby env.
+* `recovery.py -nodejs`:  Recovery NodeJS env.
+* `recovery.py -atom`:  Recovery Atom env.
+* `recovery.py -git`:  Recovery git env.
+* `recovery.py -vim`:  Recovery vim env.
 
 ## Contributors
 * [eric0324](https://github.com/eric0324)
