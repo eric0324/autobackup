@@ -5,7 +5,7 @@ import subprocess
 import string
 import re
 
-filepath = "backup/nodejs_backup.txt"
+filepath = "backup/nodejs.txt"
 
 try:
     cmd = "npm ls -g"

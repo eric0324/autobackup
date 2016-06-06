@@ -5,7 +5,7 @@ import subprocess
 import string
 import re
 
-filepath = "backup/atom_backup.txt"
+filepath = "backup/atom.txt"
 
 try:
     cmd = "apm list --bare"
