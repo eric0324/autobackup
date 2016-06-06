@@ -16,7 +16,7 @@ This README would normally document whatever steps are necessary to get the appl
 * `atom.py`: Backup Atom env.
 * `git.py`: Backup Git env.
 
-
+---
 
 * `recovery.py -all`:  Recovery all env.
 * `recovery.py -Python`:  Recovery python env.
