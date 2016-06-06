@@ -5,13 +5,13 @@ import subprocess
 import string
 import re
 
-filepath = "atom_backup.txt"
+filepath = "backup/atom_backup.txt"
 
 try:
     cmd = "apm list --bare"
     result = subprocess.check_output(cmd, shell=True)
     result = result.replace("@", "%%")
-    result = result.replace("\n", "##")
+    result = result.replace("\n", "\n##")
     result = result.replace("####", "")
     f = open(filepath, 'wb')
     f.write("##")

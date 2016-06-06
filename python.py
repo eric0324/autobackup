@@ -4,7 +4,7 @@ import string
 import sys
 import datetime
 
-filepath = "python.txt"
+filepath = "backup/python.txt"
 
 try:
     cmd = "pip list"

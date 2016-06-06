@@ -3,14 +3,14 @@ import sys
 import subprocess
 import string
 
-filepath = "ruby_backup.txt"
+filepath = "backup/ruby_backup.txt"
 
 try:
     cmd = "gem list --local"
     result = subprocess.check_output(cmd, shell=True)
     result = result.replace(" (", "%%")
     result = result.replace(")"," ")
-    result = result.replace("\n", "##")
+    result = result.replace("\n", "\n##")
 
     f = open(filepath, 'wb')
     f.write("##")

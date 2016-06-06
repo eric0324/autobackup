@@ -5,27 +5,9 @@ import subprocess
 import string
 import re
 
-def backup():
-    cmd = "cp -p ~/.gitconfig ~/.`whoami`_env/git"
+try:
+    cmd = "cp -p ~/.gitconfig backup"
     result = subprocess.check_output(cmd, shell=True)
-    #print "Git env backup success!"
-
-
-def reinstall():
-    cmd = "cp .gitconfig ~/.gitconfig"
-    subprocess.check_output(cmd, shell=True)
-    print "Reduce success!"
-
-
-#Main function
-argv = sys.argv
-
-if argv[1] == '-b':
-    backup()
-elif argv[1] == '-r':
-    reinstall()
-elif argv[1] == '-c':
-    cmd = 'find ~/ -name ".gitconfig" -mtime -1'
-    result = subprocess.check_output(cmd, shell=True)
-    if result == '.gitconfig':
-        backup()
+    print "Git env backup success!"
+except:
+    print "Error: Git backup fail"
