@@ -85,17 +85,20 @@ def vim():
 
 argv = sys.argv
 
-if argv[1] == '-all':
-    allRecovery()
-elif argv[1] == '-python':
-    python()
-elif argv[1] == '-ruby':
-    ruby()
-elif argv[1] == '-nodejs':
-    nodejs()
-elif argv[1] == '-git':
-    git()
-elif argv[1] == '-atom':
-    atom()
-elif argv[1] == '-vim':
-    vim()
+try:
+    if argv[1] == '-all':
+        allRecovery()
+    elif argv[1] == '-python':
+        python()
+    elif argv[1] == '-ruby':
+        ruby()
+    elif argv[1] == '-nodejs':
+        nodejs()
+    elif argv[1] == '-git':
+        git()
+    elif argv[1] == '-atom':
+        atom()
+    elif argv[1] == '-vim':
+        vim()
+except:
+    print "Wrong argument."
