@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 import subprocess
@@ -16,12 +17,16 @@ def allRecovery():
     vim()
 
 def python():
-    cmd = "sudo pip freeze | sudo xargs pip uninstall -y"
+    cmd = "rm -rf ~/usr/local/lib/python2.7/dist-packages"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "cat backup/python.txt"
-    result = subprocess.check_output(cmd, shell=True)
-    result = result.replace("##", "pip install ")
+    result = "sudo pip install "
+    result += subprocess.check_output(cmd, shell=True)
+    result = result.replace("##", "")
     result2 = re.sub(r'%%(\d|\.)*', "", result)
+    result2 = result2.replace("\n", "")
+
+    #print result2
 
     result = subprocess.check_output(result2, shell=True)
 
@@ -32,7 +37,7 @@ def ruby():
     result = subprocess.check_output(cmd, shell=True)
     cmd = "cat backup/ruby.txt"
     result = subprocess.check_output(cmd, shell=True)
-    result = result.replace("##", "sudo install ")
+    result = result.replace("##", "sudo gem install ")
     result2 = re.sub(r'%%(\d|\.|\s|,)*', "\n", result)
     resul2 = result.replace("x86_64-darwin-14, 3.16.14.11 x86_64-darwin-14", "")
 
@@ -43,17 +48,15 @@ def ruby():
 
 def nodejs():
 
-    #cmd = "npm ls -gp --depth=0 | awk -F/ '/node_modules/ && !/\/npm$/ {print $NF}' | xargs npm -g rm"
-    #result = subprocess.check_output(cmd, shell=True)
+    cmd = "sudo rm -rf ~/.local/lib/node_modules"
+    result = subprocess.check_output(cmd, shell=True)
     cmd = "cat backup/nodejs.txt"
     result = subprocess.check_output(cmd, shell=True)
-    result = result.replace("##", "npm install ")
+    result = result.replace("##", "sudo npm install -g ")
     result2 = re.sub(r'%%(\d|\.|\s|,)*', "\n", result)
     result2 = result2.replace("-rc4", "")
 
-    print result2
-
-    #result = subprocess.check_output(result2, shell=True)
+    result = subprocess.check_output(result2, shell=True)
 
     print "Nodejs env recovery success!"
 
@@ -63,11 +66,11 @@ def git():
     print "Git env recovery success!"
 
 def atom():
-    cmd = "rm -rf ~/.atom/packages/"
+    cmd = "rm -rf ~/.atom/packages"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "cat backup/atom.txt"
     result = subprocess.check_output(cmd, shell=True)
-    result = result.replace("##", "apm install ")
+    result = result.replace("##", "sudo apm install ")
     result2 = re.sub(r'%%(\d|\.)*', "", result)
 
     result = subprocess.check_output(result2, shell=True)
