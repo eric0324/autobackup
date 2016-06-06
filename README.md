@@ -5,7 +5,7 @@ This README would normally document whatever steps are necessary to get the appl
 * Ubuntu 16.04 LTS
 
 ## Configuration
-* run `vimbk.sh` and enjoy it!
+* run `env_bk.sh -s` and enjoy it!
 
 
 ## Services
