@@ -3,7 +3,7 @@ import sys
 import subprocess
 import string
 
-filepath = "backup/ruby_backup.txt"
+filepath = "backup/ruby.txt"
 
 try:
     cmd = "gem list --local"
