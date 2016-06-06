@@ -16,7 +16,7 @@ def allBackup():
     vim()
 
 def python():
-    filepath = "backup/python.txt"
+    filepath = "~/env_backup/python"
 
     try:
         print "Start python backup",
@@ -35,7 +35,7 @@ def python():
         print "Error: Python backup fail"
 
 def ruby():
-    filepath = "backup/ruby.txt"
+    filepath = "~/env_backup/ruby"
 
     try:
         print "Start Ruby backup",
@@ -55,7 +55,7 @@ def ruby():
         print "Error: Ruby backup fail"
 
 def nodejs():
-    filepath = "backup/nodejs.txt"
+    filepath = "~/env_backup/nodejs"
 
     try:
         print "Start NodeJS backup",
@@ -84,7 +84,7 @@ def nodejs():
 def git():
     try:
         print "Start Git backup",
-        cmd = "cp -p ~/.gitconfig backup"
+        cmd = "cp -p ~/.gitconfig ~/env_backup"
         result = subprocess.check_output(cmd, shell=True)
         print " ..done"
     except:
@@ -92,7 +92,7 @@ def git():
 
 
 def atom():
-    filepath = "backup/atom.txt"
+    filepath = "~/env_backup/atom"
 
     try:
         print "Start Atom backup",

@@ -19,7 +19,7 @@ def allRecovery():
 def python():
     cmd = "rm -rf ~/usr/local/lib/python2.7/dist-packages"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat backup/python.txt"
+    cmd = "cat ~/env_backup/python"
     result = "sudo pip install "
     result += subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "")
@@ -35,7 +35,7 @@ def python():
 def ruby():
     cmd = "sudo gem uninstall -aIx"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat backup/ruby.txt"
+    cmd = "cat ~/env_backup/ruby"
     result = subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "sudo gem install ")
     result2 = re.sub(r'%%(\d|\.|\s|,)*', "\n", result)
@@ -50,7 +50,7 @@ def nodejs():
 
     cmd = "sudo rm -rf ~/.local/lib/node_modules"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat backup/nodejs.txt"
+    cmd = "cat ~/env_backup/nodejs"
     result = subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "sudo npm install -g ")
     result2 = re.sub(r'%%(\d|\.|\s|,)*', "\n", result)
@@ -61,14 +61,14 @@ def nodejs():
     print "Nodejs env recovery success!"
 
 def git():
-    cmd = "cp -p backup/.gitconfig ~/.gitconfig"
+    cmd = "cp -p ~/env_backup/.gitconfig ~/.gitconfig"
     result = subprocess.check_output(cmd, shell=True)
     print "Git env recovery success!"
 
 def atom():
     cmd = "rm -rf ~/.atom/packages"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat backup/atom.txt"
+    cmd = "cat ~/env_backup/atom"
     result = subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "sudo apm install ")
     result2 = re.sub(r'%%(\d|\.)*', "", result)
