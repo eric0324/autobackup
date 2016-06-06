@@ -10,11 +10,13 @@ This README would normally document whatever steps are necessary to get the appl
 
 ## Services
 
-* `ruby.py`:  Backup Ruby env.
-* `python.py`: Backup Python env.
-* `nodejs.py`: Backup NodeJS env.
-* `atom.py`: Backup Atom env.
-* `git.py`: Backup Git env.
+* `backup.py -all`:  Backup all env.
+* `backup.py -ruby`:  Backup Ruby env.
+* `backup.py -pthon`: Backup Python env.
+* `backup.py -nodejs`: Backup NodeJS env.
+* `backup.py -atom`: Backup Atom env.
+* `backup.py -git`: Backup Git env.
+* `backup.py -vim`: Backup Vim env.
 
 ---
 
