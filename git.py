@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
-import sys
-import subprocess
-import string
-import re
+hi
 
 try:
     cmd = "cp -p ~/.gitconfig backup"
