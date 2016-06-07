@@ -1,15 +1,22 @@
 #!/bin/bash
-DIR=/home/`whoami`/.env_backup/
+
+if [[ ! -e ./.config ]]; then
+	echo "
+DESDIR=/home/\`whoami\`/.env_backup
 Package=(vim ruby python atom nodejs git)
 cronCMD='@daily'
+	" > .config
+fi
+source ./.config
 nInstall=()
 if [[ ! -e $DESDIR ]]; then
-	bash ./env_init.sh
+	echo "initialization..."
+	git init $DESDIR
+#	bash ./env_init.sh
 elif [[ -f $DESDIR ]]; then
 	echo "can't create dir: $DESDIR" >&2
 	exit 1
 fi
-#source $DESDIR/env_bk
 case $1 in
 	-s | --scan )
 	#scan & backup
@@ -47,9 +54,14 @@ case $1 in
 		set -- "{@:1}" "${arr[$((num - 1))]}" "`git log --pretty=format:"%s %H" | awk /$mdate/'{print $2}'`"
 		cd -
 	fi
-	python recover.py -$2 $3
+	python ./recover.py -$2 $3
 		;;
 	-[Sm] | --set )
+		if [[ $2 == 'dir' ]]; then
+			awk -v dir=$3 '{ if(/DESDIR/) print "DESDIR="dir; else print $0 }' ./.config > /tmp/config.tmp 
+			mv /tmp/config.tmp ./.config
+			python ./recovery.py -all HEAD
+		fi
 		;;
 	-l | --list)
 	ls $DESDIR/
