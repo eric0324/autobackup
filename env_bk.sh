@@ -12,7 +12,7 @@ nInstall=()
 if [[ ! -e $DESDIR ]]; then
 	echo "initialization..."
 	git init $DESDIR
-#	bash ./env_init.sh
+#	bash ./env_init.sh `basename $DESDIR`
 elif [[ -f $DESDIR ]]; then
 	echo "can't create dir: $DESDIR" >&2
 	exit 1
