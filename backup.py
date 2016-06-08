@@ -111,7 +111,14 @@ def atom():
         print "Error: Atom backup fail"
 
 def vim():
-    print "Do something"
+    try:
+        print "Start Vim backup",
+		cmd = "cp -p ~/.vimrc ~/env_backup/vim"
+		result = subprocess.check_output(cmd, shell=True)
+
+		print " ..done"
+	except:
+		print "Error: Vim backup fail"
 
 #Main function
 
