@@ -79,8 +79,12 @@ def atom():
 
 
 def vim():
-    print "do something"
-    #TO-DO
+    cmd = "cp -p ~/env_backup/vim/.vimrc ~/.vimrc"
+    result = subprocess.check_output(cmd, shell=True)
+    cmd = "vim +PluginInstall +qall"
+    result = subprocess.check_output(cmd, shell=True)
+
+    print "Vim env recovery success!"
 
 
 
