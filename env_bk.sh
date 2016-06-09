@@ -43,7 +43,7 @@ case $1 in
 	cd $DESDIR
 	arr=(all)
 	case $# in
-		2 )
+		1 )
 			echo "which environment you want to restore"
 			arr+=($(ls $DESDIR))
 			for (( i = 0; i < ${#arr[@]}; i++ )); do
@@ -53,7 +53,7 @@ case $1 in
 			read num
 			set -- "{@:1}" "${arr[$((num - 1))]}" 
 			;&
-		3 )
+		2 )
 			echo "which day you want to restore"
 			git log --pretty=format:"%s"
 			printf "input date: "
@@ -61,26 +61,31 @@ case $1 in
 			set -- "{@:2}" "`git log --pretty=format:"%s %H" | awk /$mdate/'{print $2}'`"
 			;;
 	esac
-	git checkout $3 .
 	cd -
 	if [[ $2 == 'all' ]]; then
 		for (( i = 1; i < ${#arr[@]}; i++ )); do
-			python ./backup.py -${arr[i]}
+			python ./backup.py -${arr[i]} $3
 		done
 	else
-		python ./recover.py -$2
+		python ./recover.py -$2 $3
 	fi
-	cd $DESDIR
-	git checkout HEAD .
-	cd -
+	#bash ./upload.sh
 		;;
 	-[Sm] | --set )
+		Package_bk=($(ls $DESDIR))
 		if [[ $2 == 'dir' ]]; then
 			awk -v dir=$3 '{ if(/DESDIR/) print "DESDIR="dir; else print $0 }' ./.config > /tmp/config.tmp 
 			mv /tmp/config.tmp ./.config
+			Package_bk=$(ls $3)
 		elif [[ $2 == 'timer' ]]; then
+			cronCMD="@"
 			echo "todo: set crontab interval"
 		fi
+		for name in "${Package_bk[@]}"; do
+			cronCMD+=" python `pwd`/backup.py -$name;"
+		done
+		cronCMD+=" bash `pwd`/upload.sh;"
+		#job+=`crontab -l | { cat; echo "$cronCMD";}`
 		;;
 	-l | --list)
 	ls $DESDIR/
