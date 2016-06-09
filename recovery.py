@@ -7,6 +7,12 @@ import re
 
 argv = sys.argv
 
+#Processing backup path
+cmd = "cat .config"
+result = subprocess.check_output(cmd, shell=True)
+path = re.split("DESDIR=([^\n]+)", result)
+#print path[1]
+
 #Restore all
 """
 def allRecovery():
@@ -25,7 +31,7 @@ def python():
 
     cmd = "rm -rf ~/usr/local/lib/python2.7/dist-packages"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat ~/env_backup/python"
+    cmd = "cat " + path[1] + "/python"
     result = "sudo pip install "
     result += subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "")
@@ -41,7 +47,7 @@ def python():
 def ruby():
     cmd = "sudo gem uninstall -aIx"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat ~/env_backup/ruby"
+    cmd = "cat " + path[1] + "/ruby"
     result = subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "sudo gem install ")
     result2 = re.sub(r'%%(\d|\.|\s|,)*', "\n", result)
@@ -56,7 +62,7 @@ def nodejs():
 
     cmd = "sudo rm -rf ~/.local/lib/node_modules"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat ~/env_backup/nodejs"
+    cmd = "cat " + path[1] + "/nodejs"
     result = subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "sudo npm install -g ")
     result2 = re.sub(r'%%(\d|\.|\s|,)*', "\n", result)
@@ -67,14 +73,14 @@ def nodejs():
     print "Nodejs env recovery success!"
 
 def git():
-    cmd = "cp -p ~/env_backup/.gitconfig ~/.gitconfig"
+    cmd = "cp -p " + path[1] + "/.gitconfig ~/.gitconfig"
     result = subprocess.check_output(cmd, shell=True)
     print "Git env recovery success!"
 
 def atom():
     cmd = "rm -rf ~/.atom/packages"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat ~/env_backup/atom"
+    cmd = "cat " + path[1] + "/atom"
     result = subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "sudo apm install ")
     result2 = re.sub(r'%%(\d|\.)*', "", result)
@@ -85,7 +91,7 @@ def atom():
 
 
 def vim():
-    cmd = "cp -p ~/env_backup/vim/.vimrc ~/.vimrc"
+    cmd = "cp -p" + path[1] + "/vim/.vimrc ~/.vimrc"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "vim +PluginInstall +qall"
     result = subprocess.check_output(cmd, shell=True)
@@ -96,10 +102,11 @@ def vim():
 
 #Main function
 
-cmd = "git checkout " + argv[2] + " " + argv[1]
-result = subprocess.check_output(cmd, shell=True)
 
 argv = sys.argv
+
+cmd = "git checkout " + argv[2] + " " + argv[1]
+result = subprocess.check_output(cmd, shell=True)
 
 try:
     if argv[1] == '-python':
