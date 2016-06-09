@@ -96,6 +96,9 @@ def vim():
 
 #Main function
 
+cmd = "git checkout " + argv[2] + " " + argv[1]
+result = subprocess.check_output(cmd, shell=True)
+
 argv = sys.argv
 
 try:
