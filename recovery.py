@@ -17,6 +17,10 @@ def allRecovery():
     vim()
 
 def python():
+
+    cmd = "apt-get install python-pip"
+    result = subprocess.check_output(cmd, shell=True)
+
     cmd = "rm -rf ~/usr/local/lib/python2.7/dist-packages"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "cat ~/env_backup/python"
