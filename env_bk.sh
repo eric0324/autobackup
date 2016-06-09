@@ -79,13 +79,13 @@ case $1 in
 			Package_bk=$(ls $3)
 		elif [[ $2 == 'timer' ]]; then
 			cronCMD="@"
-			interval=(Hourly Daily Monthly Yearly)
+			interval=(Hourly Daily Weekly Monthly Yearly)
 			for (( i = 0; i < ${#interval[@]}; i++ )); do
 				echo "$((i+1)). ${interval[i]}"
 			done
 			printf "input number:"
 			read num
-			cronCMD+=${interval[$num]}
+			cronCMD+=${interval[$((num-1))]}
 		fi
 		for name in "${Package_bk[@]}"; do
 			cronCMD+=" python `pwd`/backup.py -$name;"
