@@ -17,7 +17,7 @@ elif [[ -f $DESDIR ]]; then
 	echo "can't create dir: $DESDIR" >&2
 	exit 1
 fi
-job=`crontab -l 2> /dev/null`
+job=`crontab -l 2> /dev/null | grep ${PWD}| crontab -`
 crontab -l 2> /dev/null | grep -v `pwd` | crontab -
 case $1 in
 	-s | --scan )
@@ -37,7 +37,7 @@ case $1 in
 	for n in "${nInstall[@]}" ; do
 		echo "$n is not installed"
 	done
-	#job+=`crontab -l | { cat; echo "$cronCMD";}`
+	job=$cronCMD;
 		;;
 	-r | --recover )
 	cd $DESDIR
@@ -85,15 +85,18 @@ case $1 in
 			cronCMD+=" python `pwd`/backup.py -$name;"
 		done
 		cronCMD+=" bash `pwd`/upload.sh;"
-		#job+=`crontab -l | { cat; echo "$cronCMD";}`
+		job=$cronCMD
+		;;
+	-d | --disable)
+		job=""
 		;;
 	-l | --list)
-	ls $DESDIR/
+		ls $DESDIR/
 		;;
 	*)
-	echo "Wrong argument: $1" >&2
-	exit 2
+		echo "Wrong argument: $1" >&2
+		exit 2
 		;;
 esac
-printf $job | crontab -
+crontab -l | {cat; printf $job} | crontab -
 exit 0
