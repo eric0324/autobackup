@@ -8,6 +8,7 @@ import re
 argv = sys.argv
 
 #Restore all
+"""
 def allRecovery():
     python()
     ruby()
@@ -15,6 +16,7 @@ def allRecovery():
     git()
     atom()
     vim()
+"""
 
 def python():
 
@@ -97,9 +99,7 @@ def vim():
 argv = sys.argv
 
 try:
-    if argv[1] == '-all':
-        allRecovery()
-    elif argv[1] == '-python':
+    if argv[1] == '-python':
         python()
     elif argv[1] == '-ruby':
         ruby()
