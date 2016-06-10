@@ -105,7 +105,7 @@ def vim():
 
 argv = sys.argv
 
-cmd = "git checkout " + argv[2] + " " + argv[1]
+cmd = "cd " + path[1] + " && git checkout " + argv[2] + " " + argv[1]
 result = subprocess.check_output(cmd, shell=True)
 
 try:
