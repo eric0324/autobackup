@@ -84,9 +84,7 @@ def nodejs():
 def git():
     try:
         print "Start Git backup",
-        cmd = "cp -p ~/.gitconfig ~/env_backup"
-        result = subprocess.check_output(cmd, shell=True)
-        cmd = "mv ~/env_backup/.gitconfig ~/env_backup/git"
+        cmd = "cp -p ~/.gitconfig ~/env_backup/git"
         result = subprocess.check_output(cmd, shell=True)
         print " ..done"
     except:
@@ -117,9 +115,6 @@ def vim():
         print "Start Vim backup",
     	cmd = "cp -p ~/.vimrc ~/env_backup/vim"
     	result = subprocess.check_output(cmd, shell=True)
-        cmd = "mv ~/env_backup/.vimrc ~/env_backup/vim"
-        result = subprocess.check_output(cmd, shell=True)
-
     	print " ..done"
     except:
 	print "Error: Vim backup fail"
