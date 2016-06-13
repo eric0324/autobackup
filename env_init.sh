@@ -1,19 +1,50 @@
-#!/bin/bash
-echo "plz input ur github acc" 
+#!/bin/sh
+echo "input your github acc" 
 read user
+dirname="mybackup"  #name of github repo
 
-#todo: check ~/.ssh
-ssh-keygen -t rsa 
-#-C $user
 
-key=`cat ~/.ssh/id_rsa.pub`
 
-echo $key
+if ! [ -f "/home/$USER/.ssh/id_rsa" ];then
 
-curl -u $user https://api.github.com/user/keys -d "{\"title\": \"create by env_bk\",\"key\": \"$key\" }"
+ssh-keygen -t rsa
 
-curl -u $user https://api.github.com/user/repos -d "{\"name\":\"$1\"}"
+fi
+
+
+
+
+cd ~/.ssh
+while read rsa_key
+do
+key=$rsa_key
+done < 'id_rsa.pub'
+
+
+
+curl -u $user https://api.github.com/user/keys -d "{\"title\": \"bka\",\"key\": \"$key\" }"
+
+curl -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}"
+
+
+
+ssh-add id_rsa
 
 ssh -T git@github.com
 
-#git remote add origin git@github.com:$user/mybackup.git
+
+
+
+git clone git@github.com:$user/$dirname.git ~/.env
+
+
+cd ~/.env
+
+git config user.name $user
+
+
+git config user.email $user
+
+
+echo "done"
+
