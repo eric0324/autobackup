@@ -73,6 +73,8 @@ def nodejs():
     print "Nodejs env recovery success!"
 
 def git():
+    cmd = "mv ~/env_backup/git ~/env_backup/.gitconfig"
+    result = subprocess.check_output(cmd, shell=True)
     cmd = "cp -p " + path[1] + "/.gitconfig ~/.gitconfig"
     result = subprocess.check_output(cmd, shell=True)
     print "Git env recovery success!"
@@ -91,6 +93,8 @@ def atom():
 
 
 def vim():
+    cmd = "mv ~/env_backup/vim ~/env_backup/.vimrc"
+    result = subprocess.check_output(cmd, shell=True)
     cmd = "cp -p" + path[1] + "/vim/.vimrc ~/.vimrc"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "vim +PluginInstall +qall"
