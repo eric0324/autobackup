@@ -131,7 +131,7 @@ def atom():
 def vim():
     try:
         print "Start Vim backup",
-    	cmd = "cp -p ~/.vimrc ~/env_backup/vim"
+    	cmd = "cp -p ~/.vimrc ~/" + path[1] + "/vim"
     	result = subprocess.check_output(cmd, shell=True)
     	print " ..done"
     except:
