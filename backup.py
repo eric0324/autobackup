@@ -7,6 +7,11 @@ import re
 
 argv = sys.argv
 
+#Processing backup path
+cmd = "cat .config"
+result = subprocess.check_output(cmd, shell=True)
+path = re.split("DESDIR=([^\n]+)", result)
+
 def allBackup():
     python()
     ruby()
@@ -16,7 +21,7 @@ def allBackup():
     vim()
 
 def python():
-    filepath = "~/env_backup/python"
+    filepath = path[1] + "/python"
 
     try:
         print "Start python backup",
@@ -35,7 +40,7 @@ def python():
         print "Error: Python backup fail"
 
 def ruby():
-    filepath = "~/env_backup/ruby"
+    filepath = path[1] + "/ruby"
 
     try:
         print "Start Ruby backup",
@@ -55,7 +60,7 @@ def ruby():
         print "Error: Ruby backup fail"
 
 def nodejs():
-    filepath = "~/env_backup/nodejs"
+    filepath = path[1] + "/nodejs"
 
     try:
         print "Start NodeJS backup",
@@ -84,7 +89,7 @@ def nodejs():
 def git():
     try:
         print "Start Git backup",
-        cmd = "cp -p ~/.gitconfig ~/env_backup/git"
+        cmd = "cp -p ~/.gitconfig "+ path[1] + "/git"
         result = subprocess.check_output(cmd, shell=True)
         print " ..done"
     except:
@@ -92,7 +97,7 @@ def git():
 
 
 def atom():
-    filepath = "~/env_backup/atom"
+    filepath = path[1] + "/atom"
 
     try:
         print "Start Atom backup",
