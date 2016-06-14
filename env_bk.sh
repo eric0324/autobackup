@@ -1,11 +1,20 @@
 #!/bin/bash
 
 if [[ ! -e ./.config ]]; then
-	echo "
+	echo "#config
 DESDIR=/home/\`whoami\`/.env_backup
 Package=(vim ruby python atom nodejs git)
 cronCMD='@daily'
 	" > .config
+elif [[ ! -e ./upload.sh ]]; then
+	echo "#!/bin/bash
+source `pwd`/.config
+cd \$DESDIR
+git add .
+git commit -m \"\`date +%Y%m%d\`\"
+git push
+exit
+" > upload.sh
 fi
 source ./.config
 nInstall=()
