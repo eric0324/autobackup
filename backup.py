@@ -24,7 +24,7 @@ def python():
     filepath = path[1] + "/python"
 
     try:
-        print "Start python backup",
+        print "Start python backup"
         cmd = "pip list"
         result = subprocess.check_output(cmd, shell=True)
         result = result.replace(" (", "%%")
@@ -56,7 +56,7 @@ def ruby():
         print "[Error]Ruby: Gem have some problem"
 
     try:
-        f = open(filepath), 'wb')
+        f = open(filepath, 'wb')
         f.write("##")
         f.write(result)
         f.close()
