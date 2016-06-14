@@ -11,8 +11,7 @@ source ./.config
 nInstall=()
 if [[ ! -e $DESDIR ]]; then
 	echo "initialization..."
-	git init $DESDIR
-#	bash ./env_init.sh `basename $DESDIR`
+	bash ./github_setup.sh $DESDIR
 elif [[ -f $DESDIR ]]; then
 	echo "can't create dir: $DESDIR" >&2
 	exit 1
@@ -69,17 +68,32 @@ case $1 in
 	else
 		python ./recover.py -$2 $3
 	fi
-	#bash ./upload.sh
+	bash ./upload.sh
 		;;
 	-[Sm] | --set )
 		Package_bk=($(ls $DESDIR))
-		if [[ $2 == 'dir' ]]; then
+		if [[ $2 == 'dir' ]] && [[ $3 != '' ]]; then
 			awk -v dir=$3 '{ if(/DESDIR/) print "DESDIR="dir; else print $0 }' ./.config > /tmp/config.tmp 
 			mv /tmp/config.tmp ./.config
 			Package_bk=$(ls $3)
 		elif [[ $2 == 'timer' ]]; then
 			cronCMD="@"
-			echo "todo: set crontab interval"
+			case $3 in
+				Hourly | Daily | Weekly | Monthly | Yearly )
+					cronCMD+="$3"
+					;;
+				* )
+					interval=(Hourly Daily Weekly Monthly Yearly)
+					for (( i = 0; i < ${#interval[@]}; i++ )); do
+						echo "$((i+1)). ${interval[i]}"
+					done
+					printf "input number:"
+					read num
+					cronCMD+=${interval[$((num-1))]}
+					;;
+			esac
+		else
+			echo "Wrong argument"
 		fi
 		for name in "${Package_bk[@]}"; do
 			cronCMD+=" python `pwd`/backup.py -$name;"
@@ -87,13 +101,13 @@ case $1 in
 		cronCMD+=" bash `pwd`/upload.sh;"
 		job=$cronCMD
 		;;
-	-d | --disable)
+	-d | --disable )
 		job=""
 		;;
-	-l | --list)
+	-l | --list )
 		ls $DESDIR/
 		;;
-	*)
+	* )
 		echo "Wrong argument: $1" >&2
 		exit 2
 		;;

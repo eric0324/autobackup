@@ -93,7 +93,7 @@ def atom():
 
 
 def vim():
-    cmd = "cp -p" + path[1] + "/vim/.vimrc ~/.vimrc"
+    cmd = "cp -p" + path[1] + "/vim ~/.vimrc"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "vim +PluginInstall +qall"
     result = subprocess.check_output(cmd, shell=True)
