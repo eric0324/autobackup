@@ -112,5 +112,5 @@ case $1 in
 		exit 2
 		;;
 esac
-crontab -l | {cat; printf $job} | crontab -
+(crontab -l; echo $job) | sort - | uniq - | crontab -
 exit 0
