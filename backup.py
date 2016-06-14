@@ -34,7 +34,7 @@ def python():
         print "[Error]Python: you do not install pip"
 
     try:
-        f = open(os.path.join(os.path.expanduser('~'),filepath) ,'wrb')
+        f = open(filepath,'wrb')
         f.write("##")
         f.write(result)
         f.close()
@@ -57,7 +57,7 @@ def ruby():
         print "[Error]Ruby: Gem have some problem"
 
     try:
-        f = open(os.path.join(os.path.expanduser('~'),filepath), 'wb')
+        f = open(filepath), 'wb')
         f.write("##")
         f.write(result)
         f.close()
@@ -86,7 +86,7 @@ def nodejs():
         print "[Error]NodeJS: NPM have some problem"
 
     try:
-        f = open(os.path.join(os.path.expanduser('~'),filepath), 'wb')
+        f = open(filepath, 'wb')
         f.write("  ")
         f.write(result)
         f.close()
@@ -99,7 +99,7 @@ def nodejs():
 def git():
     try:
         print "Start Git backup",
-        cmd = "cp -p ~/.gitconfig ~/" + path[1] + "/git"
+        cmd = "cp -p ~/.gitconfig " + path[1] + "/git"
         result = subprocess.check_output(cmd, shell=True)
         print " ..done"
     except:
@@ -119,7 +119,7 @@ def atom():
     except:
         print "[Error]Atom: APM have some problem"
     try:
-        f = open(os.path.join(os.path.expanduser('~'),filepath), 'wb')
+        f = open(filepath, 'wb')
         f.write("##")
         f.write(result)
         f.close()
@@ -131,7 +131,7 @@ def atom():
 def vim():
     try:
         print "Start Vim backup",
-    	cmd = "cp -p ~/.vimrc ~/env_backup/vim"
+    	cmd = "cp -p ~/.vimrc "+ path[1] + "/vim"
     	result = subprocess.check_output(cmd, shell=True)
     	print " ..done"
     except:
