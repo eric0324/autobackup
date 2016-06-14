@@ -30,14 +30,18 @@ def python():
         result = result.replace(" (", "%%")
         result = result.replace(")"," ")
         result = result.replace("\n", "\n##")
-        f = open(filepath, 'wb')
+    except:
+        print "[Error]Python: you do not install pip"
+
+    try:
+        f = open(os.path.join(os.path.expanduser('~'),filepath) ,'wrb')
         f.write("##")
         f.write(result)
         f.close()
 
         print " ..done"
     except:
-        print "Error: Python backup fail"
+        print "[Error]Python: path error"
 
 def ruby():
     filepath = path[1] + "/ruby"
@@ -49,15 +53,17 @@ def ruby():
         result = result.replace(" (", "%%")
         result = result.replace(")"," ")
         result = result.replace("\n", "\n##")
+    except:
+        print "[Error]Ruby: Gem have some problem"
 
-        f = open(filepath, 'wb')
+    try:
+        f = open(os.path.join(os.path.expanduser('~'),filepath), 'wb')
         f.write("##")
         f.write(result)
         f.close()
-
         print " ..done"
     except:
-        print "Error: Ruby backup fail"
+        print "[Error]Ruby: path error"
 
 def nodejs():
     filepath = path[1] + "/nodejs"
@@ -76,24 +82,28 @@ def nodejs():
         result = result.replace("  ## ", "##")
         result = result.replace("## ", "")
         result = result.replace("  /usr/local/lib", "")
-        f = open(filepath, 'wb')
+    except:
+        print "[Error]NodeJS: NPM have some problem"
+
+    try:
+        f = open(os.path.join(os.path.expanduser('~'),filepath), 'wb')
         f.write("  ")
         f.write(result)
         f.close()
 
         print "Start NodeJS backup ..done"
     except:
-        print "Error: NodeJS backup fail"
+        print "[Error]NodeJS: path error"
 
 
 def git():
     try:
         print "Start Git backup",
-        cmd = "cp -p ~/.gitconfig "+ path[1] + "/git"
+        cmd = "cp -p ~/.gitconfig ~/" + path[1] + "/git"
         result = subprocess.check_output(cmd, shell=True)
         print " ..done"
     except:
-        print "Error: Git backup fail"
+        print "[Error]Git: path error"
 
 
 def atom():
@@ -106,14 +116,17 @@ def atom():
         result = result.replace("@", "%%")
         result = result.replace("\n", "\n##")
         result = result.replace("####", "")
-        f = open(filepath, 'wb')
+    except:
+        print "[Error]Atom: APM have some problem"
+    try:
+        f = open(os.path.join(os.path.expanduser('~'),filepath), 'wb')
         f.write("##")
         f.write(result)
         f.close()
 
         print " ..done"
     except:
-        print "Error: Atom backup fail"
+        print "[Error]Atom: path error"
 
 def vim():
     try:
