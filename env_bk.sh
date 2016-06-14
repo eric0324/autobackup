@@ -2,7 +2,7 @@
 
 if [[ ! -e ./.config ]]; then
 	echo "#config
-DESDIR=/home/\`whoami\`/.env_backup
+DESDIR=/home/$USER/.env_backup
 Package=(vim ruby python atom nodejs git)
 cronCMD='@daily'
 	" > .config
