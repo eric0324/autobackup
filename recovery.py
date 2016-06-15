@@ -73,9 +73,7 @@ def nodejs():
     print "Nodejs env recovery success!"
 
 def git():
-    cmd = "mv " + path[1] + "/git ~/.gitconfig"
-    result = subprocess.check_output(cmd, shell=True)
-    cmd = "cp -p " + path[1] + "/.gitconfig ~/.gitconfig"
+    cmd = "cp -p " + path[1] + "/git ~/.gitconfig"
     result = subprocess.check_output(cmd, shell=True)
     print "Git env recovery success!"
 
