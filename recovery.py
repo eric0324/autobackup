@@ -104,24 +104,26 @@ def vim():
 
 #Main function
 
-
 argv = sys.argv
+
+envArgv  = argv[1];
+argv[1] = re.sub(r'-', "", argv[1])
 
 cmd = "cd " + path[1] + " && git checkout " + argv[2] + " " + argv[1]
 result = subprocess.check_output(cmd, shell=True)
 
 try:
-    if argv[1] == '-python':
+    if envArgv == '-python':
         python()
-    elif argv[1] == '-ruby':
+    elif envArgv == '-ruby':
         ruby()
-    elif argv[1] == '-nodejs':
+    elif envArgv == '-nodejs':
         nodejs()
-    elif argv[1] == '-git':
+    elif envArgv == '-git':
         git()
-    elif argv[1] == '-atom':
+    elif envArgv == '-atom':
         atom()
-    elif argv[1] == '-vim':
+    elif envArgv == '-vim':
         vim()
 except:
     print "Wrong argument."
