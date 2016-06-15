@@ -8,10 +8,44 @@ if ! [ -f "/home/$USER/.ssh/id_rsa" ];then
 fi
 
 key=`cat ~/.ssh/id_rsa.pub`
-echo "create repo..."
 
-curl -u $user https://api.github.com/user/keys -d "{\"title\": \"env ssh key\",\"key\": \"$key\" }"
-curl -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}"
+echo "using your ssh-key to connection github..."
+
+i=`curl -s -u $user https://api.github.com/user/keys -d "{\"title\": \"env ssh key\",\"key\": \"$key\" }" | grep Bad -c `
+
+if [ "$i" = '1' ]
+then
+
+until [ $i != "1" ]
+do
+echo "   "
+echo "worng username or password input again"
+echo "   "
+echo "input your github acc" 
+read user
+
+i=`curl -s -u $user https://api.github.com/user/keys -d "{\"title\": \"env ssh key\",\"key\": \"$key\" }" | grep Bad -c `
+
+done
+fi
+
+echo "create repo..."
+echo " "
+
+i=`curl -s -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}" | grep Bad -c ` 
+
+if [ "$i" = '1' ]
+then
+
+until [ $i != "1" ]
+do
+echo "worng password input again"
+
+i=`curl -s -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}" | grep Bad -c ` 
+
+done
+
+fi
 
 ssh-add id_rsa
 
