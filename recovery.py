@@ -93,9 +93,13 @@ def atom():
 
 
 def vim():
-    cmd = "cp -p" + path[1] + "/vim ~/.vimrc"
+    cmd = "rm -rf ~/.vimrc"
+    result = subprocess.check_output(cmd, shell=True)
+    cmd = "cp -p " + path[1] + "/vim ~/.vimrc"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "vim +PluginInstall +qall"
+    result = subprocess.check_output(cmd, shell=True)
+    cmd = "vim +PluginClean +qall"
     result = subprocess.check_output(cmd, shell=True)
 
     print "Vim env recovery success!"
