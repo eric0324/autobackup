@@ -41,7 +41,6 @@ case $1 in
 		fi
 	done
 	cronCMD+=" bash `pwd`/upload.sh;"
-	#echo "$cronCMD"
 	for n in "${nInstall[@]}" ; do
 		echo "$n is not installed"
 	done
@@ -88,11 +87,11 @@ case $1 in
 		elif [[ $2 == 'timer' ]]; then
 			cronCMD="@"
 			case $3 in
-				Hourly | Daily | Weekly | Monthly | Yearly )
+				hourly | daily | weekly | monthly | yearly )
 					cronCMD+="$3"
 					;;
 				* )
-					interval=(Hourly Daily Weekly Monthly Yearly)
+					interval=(hourly daily weekly monthly yearly)
 					for (( i = 0; i < ${#interval[@]}; i++ )); do
 						echo "$((i+1)). ${interval[i]}"
 					done
