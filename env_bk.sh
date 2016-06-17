@@ -25,13 +25,13 @@ elif [[ -f $DESDIR ]]; then
 	echo "can't create dir: $DESDIR" >&2
 	exit 1
 fi
-job=`crontab -l 2> /dev/null | grep ${PWD}| crontab -`
+job=`crontab -l 2> /dev/null | grep ${PWD}`
 crontab -l 2> /dev/null | grep -v `pwd` | crontab -
 case $1 in
 	-s | --scan )
 	#scan & backup
 	for i in "${Package[@]}"; do
-		if [[ $( dpkg -s $i 2> /dev/null | grep Status ) == 'Status: install ok installed' ]]; then
+		if [[ `dpkg -s $i 2> /dev/null | grep Status` == 'Status: install ok installed' ]]; then
 			if [[ ! -e $DESDIR/$i ]]; then
 				python ./backup.py -$i
 			fi
