@@ -11,7 +11,7 @@ elif [[ ! -e ./upload.sh ]]; then
 source `pwd`/.config
 cd \$DESDIR
 git add .
-git commit -m \"\`date +%Y%m%d\`\"
+git commit -m \"\`date +%Y%m%d-%H%M\`\"
 git push
 exit
 " > upload.sh
@@ -62,19 +62,20 @@ case $1 in
 			;&
 		2 )
 			echo "which day you want to restore"
-			git log --pretty=format:"%s"
+			git log --pretty=format:"%s" | cat
 			printf "input date: "
 			read mdate 
-			set -- "{@:2}" "`git log --pretty=format:"%s %H" | awk /$mdate/'{print $2}'`"
+			date_arr=($(git log --pretty=format:"%s %H" | awk /$mdate/'{print $2}'))
+			set -- "$1" "$2" "${date_arr[0]}"
 			;;
 	esac
 	cd -
 	if [[ $2 == 'all' ]]; then
 		for (( i = 1; i < ${#arr[@]}; i++ )); do
-			python ./backup.py -${arr[i]} $3
+			python ./recovery.py -${arr[i]} $3
 		done
 	else
-		python ./recover.py -$2 $3
+		python ./recovery.py -$2 $3
 	fi
 	bash ./upload.sh
 		;;
