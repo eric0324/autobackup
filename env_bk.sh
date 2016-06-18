@@ -46,6 +46,7 @@ case $1 in
 		echo "$n is not installed"
 	done
 	job=$cronCMD;
+	bash upload.sh
 		;;
 	-r | --recover )
 	cd $DESDIR
