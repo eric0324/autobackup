@@ -6,12 +6,13 @@ DESDIR=/home/$USER/.env_backup
 Package=(vim ruby python atom nodejs git)
 cronCMD='@daily'
 	" > .config
-elif [[ ! -e ./upload.sh ]]; then
+fi
+if [[ ! -e ./upload.sh ]]; then
 	echo "#!/bin/bash
 source `pwd`/.config
 cd \$DESDIR
 git add .
-git commit -m \"\`date +%Y%m%d-%H%M\`\"
+git commit -m \"\`date +%d%m%Y-%H%M-%S\`\"
 git push
 exit
 " > upload.sh
