@@ -1,30 +1,20 @@
 #!/bin/bash
 
-if [[ ! -e ./.config ]]; then
+if [[ ! -e `dirname $0`/.config ]]; then
 	echo "#config
 DESDIR=/home/$USER/.env_backup
 Package=(vim ruby python atom nodejs git)
 cronCMD='@daily'
 	" > .config
 fi
-if [[ ! -e ./upload.sh ]]; then
-	echo "#!/bin/bash
-source `pwd`/.config
-cd \$DESDIR
-git add .
-git commit -m \"\`date +%d%m%Y-%H%M-%S\`\"
-git push
-exit
-" > upload.sh
-fi
-source ./.config
+source `dirname $0`/.config
 nInstall=()
 if [[ ! -e $DESDIR ]]; then
 	echo "initialization..."
 	bash ./github_setup.sh $DESDIR
 elif [[ -f $DESDIR ]]; then
 	echo "can't create dir: $DESDIR" >&2
-	exit 1
+	exit -1
 fi
 job=`crontab -l 2> /dev/null | grep ${PWD}`
 crontab -l 2> /dev/null | grep -v `pwd` | crontab -
@@ -34,33 +24,46 @@ case $1 in
 	for i in "${Package[@]}"; do
 		if [[ `dpkg -s $i 2> /dev/null | grep Status` == 'Status: install ok installed' ]]; then
 			if [[ ! -e $DESDIR/$i ]]; then
-				python ./backup.py -$i
+				python `dirname $(readlink -f $0)`/backup.py -$i
 			fi
-			cronCMD+=" python `pwd`/backup.py -$i;"
+			cronCMD+=" python `dirname $(readlink -f $0)`/backup.py -$i;"
 		else
 			nInstall+=($i)
 		fi
 	done
-	cronCMD+=" bash `pwd`/upload.sh;"
+	cronCMD+=" bash `dirname $(readlink -f $0)`/upload.sh;"
 	for n in "${nInstall[@]}" ; do
 		echo "$n is not installed"
 	done
 	job=$cronCMD;
-	bash upload.sh
+	bash `dirname $0`/upload.sh
 		;;
 	-r | --recover )
+	envlist=(all)
+	if [[ $4 != '' ]] ; then
+		if [[ -e $4 ]] && [[ -e $4/.git ]]; then
+			DESDIR=$4
+		else 
+			echo "can not recover from $4"
+			exit -3
+		fi
+	fi
+	echo "recover from $DESDIR ..."
 	cd $DESDIR
-	arr=(all)
 	case $# in
 		1 )
 			echo "which environment you want to restore"
-			arr+=($(ls $DESDIR))
-			for (( i = 0; i < ${#arr[@]}; i++ )); do
-				echo "$((i+1)). ${arr[i]}"
+			envlist+=($(ls))
+			if [[ ${#envlist[@]} == 1 ]]; then
+				echo "There is nothing to restore from $DESDIR"
+				exit -4
+			fi
+			for (( i = 0; i < ${#envlist[@]}; i++ )); do
+				echo "$((i+1)). ${envlist[i]}"
 			done
 			printf "input a number: "
 			read num
-			set -- "{@:1}" "${arr[$((num - 1))]}" 
+			set -- "$1" "${envlist[$((num - 1))]}" 
 			;&
 		2 )
 			echo "which day you want to restore"
@@ -73,20 +76,20 @@ case $1 in
 	esac
 	cd -
 	if [[ $2 == 'all' ]]; then
-		for (( i = 1; i < ${#arr[@]}; i++ )); do
-			python ./recovery.py -${arr[i]} $3
+		for (( i = 1; i < ${#envlist[@]}; i++ )); do
+			python `dirname $0`/recovery.py -${envlist[i]} $3
 		done
 	else
-		python ./recovery.py -$2 $3
+		python `dirname $0`/recovery.py -$2 $3
 	fi
-	bash ./upload.sh
+	bash `dirname $0`/upload.sh
 		;;
 	-[Sm] | --set )
 		Package_bk=($(ls $DESDIR))
 		if [[ $2 == 'dir' ]] && [[ $3 != '' ]]; then
-			awk -v dir=$3 '{ if(/DESDIR/) print "DESDIR="dir; else print $0 }' ./.config > /tmp/config.tmp 
-			mv /tmp/config.tmp ./.config
-			Package_bk=$(ls $3)
+			awk -v dir=$3 '{ if(/DESDIR/) print "DESDIR="dir; else print $0 }' `dirname $0`/.config > /tmp/config.tmp 
+			mv /tmp/config.tmp `dirname $0`/.config
+			Package_bk=($(ls $3))
 		elif [[ $2 == 'timer' ]]; then
 			cronCMD="@"
 			case $3 in
@@ -107,9 +110,9 @@ case $1 in
 			echo "Wrong argument"
 		fi
 		for name in "${Package_bk[@]}"; do
-			cronCMD+=" python `pwd`/backup.py -$name;"
+			cronCMD+=" python `dirname $(readlink -f $0)`/backup.py -$name;"
 		done
-		cronCMD+=" bash `pwd`/upload.sh;"
+		cronCMD+=" bash `dirname $(readlink -f $0)`/upload.sh;"
 		job=$cronCMD
 		;;
 	-d | --disable )
@@ -120,7 +123,7 @@ case $1 in
 		;;
 	* )
 		echo "Wrong argument: $1" >&2
-		exit 2
+		exit -2
 		;;
 esac
 (crontab -l; echo $job) | sort - | uniq - | crontab -
