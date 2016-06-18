@@ -104,7 +104,7 @@ path: DESDIR=g
 argv = sys.argv
 
 try:
-    if len(argv) > 1:
+    if len(argv) ==4 :
         path = argv[3]
     else :
         currentPath = os.path.dirname(os.path.abspath(__file__))
