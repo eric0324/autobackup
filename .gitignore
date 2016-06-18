@@ -1,5 +1,4 @@
 .config
-upload.sh
 
 # Compiled Object files
 *.slo
