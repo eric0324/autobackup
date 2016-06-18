@@ -18,12 +18,12 @@ def allRecovery():
 
 def python():
 
-    cmd = "apt-get install python-pip"
+    cmd = "sudo apt-get install python-pip"
     result = subprocess.check_output(cmd, shell=True)
 
     cmd = "rm -rf ~/usr/local/lib/python2.7/dist-packages"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat " + path[1] + "/python"
+    cmd = "cat " + path + "/python"
     result = "sudo pip install "
     result += subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "")
@@ -39,7 +39,7 @@ def python():
 def ruby():
     cmd = "sudo gem uninstall -aIx"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat " + path[1] + "/ruby"
+    cmd = "cat " + path + "/ruby"
     result = subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "sudo gem install ")
     result2 = re.sub(r'%%(\d|\.|\s|,)*', "\n", result)
@@ -54,7 +54,7 @@ def nodejs():
 
     cmd = "sudo rm -rf ~/.local/lib/node_modules"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat " + path[1] + "/nodejs"
+    cmd = "cat " + path + "/nodejs"
     result = subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "sudo npm install -g ")
     result2 = re.sub(r'%%(\d|\.|\s|,)*', "\n", result)
@@ -65,14 +65,14 @@ def nodejs():
     print "Nodejs env recovery success!"
 
 def git():
-    cmd = "cp -p " + path[1] + "/git ~/.gitconfig"
+    cmd = "cp -p " + path + "/git ~/.gitconfig"
     result = subprocess.check_output(cmd, shell=True)
     print "Git env recovery success!"
 
 def atom():
     cmd = "rm -rf ~/.atom/packages"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "cat " + path[1] + "/atom"
+    cmd = "cat " + path + "/atom"
     result = subprocess.check_output(cmd, shell=True)
     result = result.replace("##", "sudo apm install ")
     result2 = re.sub(r'%%(\d|\.)*', "", result)
@@ -83,7 +83,7 @@ def atom():
 
 
 def vim():
-    cmd = "cp -p " + path[1] + "/vim ~/.vimrc"
+    cmd = "cp -p " + path + "/vim ~/.vimrc"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "vim +PluginInstall +qall"
     result = subprocess.check_output(cmd, shell=True)
@@ -99,7 +99,7 @@ def vim():
 argv[1]: recovery.py
 argv[2]: recovery env
 argv[3]: path if exits.
-path[1]: DESDIR=
+path: DESDIR=g
 """
 argv = sys.argv
 
@@ -111,13 +111,14 @@ try:
         cmd = "cat " + currentPath +"/.config"
         result = subprocess.check_output(cmd, shell=True)
         path = re.split("DESDIR=([^\n]+)", result)
+        path = path
 except:
     print "[Error]: Wrong argument."
 
 envArgv  = argv[1];
 argv[1] = re.sub(r'-', "", argv[1])
 
-cmd = "cd " + path[1] + " && git checkout " + argv[2] + " " + argv[1]
+cmd = "cd " + path + " && git checkout " + argv[2] + " " + argv[1]
 result = subprocess.check_output(cmd, shell=True)
 
 try:
