@@ -1,5 +1,15 @@
 #!/bin/bash
 
+github_init() {
+	if [[ ! -e $DESDIR ]]; then
+		echo "initialization..."
+		bash ./github_setup.sh $DESDIR
+	elif [[ -f $DESDIR ]]; then
+		echo "can't create dir: $DESDIR" >&2
+		exit -1
+	fi
+}
+
 if [[ ! -e `dirname $0`/.config ]]; then
 	echo "#config
 DESDIR=/home/$USER/.env_backup
@@ -9,18 +19,13 @@ cronCMD='@daily'
 fi
 source `dirname $0`/.config
 nInstall=()
-if [[ ! -e $DESDIR ]]; then
-	echo "initialization..."
-	bash ./github_setup.sh $DESDIR
-elif [[ -f $DESDIR ]]; then
-	echo "can't create dir: $DESDIR" >&2
-	exit -1
-fi
 job=`crontab -l 2> /dev/null | grep ${PWD}`
 crontab -l 2> /dev/null | grep -v `pwd` | crontab -
+
 case $1 in
 	-s | --scan )
 	#scan & backup
+	github_init
 	for i in "${Package[@]}"; do
 		if [[ `dpkg -s $i 2> /dev/null | grep Status` == 'Status: install ok installed' ]]; then
 			if [[ ! -e $DESDIR/$i ]]; then
@@ -47,6 +52,8 @@ case $1 in
 			echo "can not recover from $4"
 			exit -3
 		fi
+	else
+		github_init
 	fi
 	echo "recover from $DESDIR ..."
 	cd $DESDIR
