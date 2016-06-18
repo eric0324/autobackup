@@ -5,15 +5,6 @@ import subprocess
 import string
 import re
 
-argv = sys.argv
-
-#Processing backup path
-currentPath = os.path.dirname(os.path.abspath(__file__))
-
-cmd = "cat " + currentPath +"/.config"
-result = subprocess.check_output(cmd, shell=True)
-path = re.split("DESDIR=([^\n]+)", result)
-
 #Restore all
 """
 def allRecovery():
@@ -104,8 +95,24 @@ def vim():
 
 
 #Main function
-
+"""
+argv[1]: recovery.py
+argv[2]: recovery env
+argv[3]: path if exits.
+path[1]: DESDIR=
+"""
 argv = sys.argv
+
+try:
+    if len(argv) > 1:
+        path = argv[3]
+    else :
+        currentPath = os.path.dirname(os.path.abspath(__file__))
+        cmd = "cat " + currentPath +"/.config"
+        result = subprocess.check_output(cmd, shell=True)
+        path = re.split("DESDIR=([^\n]+)", result)
+except:
+    print "[Error]: Wrong argument."
 
 envArgv  = argv[1];
 argv[1] = re.sub(r'-', "", argv[1])
