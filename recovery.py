@@ -21,7 +21,7 @@ def python():
     cmd = "sudo apt-get install python-pip"
     result = subprocess.check_output(cmd, shell=True)
 
-    cmd = "rm -rf ~/usr/local/lib/python2.7/dist-packages"
+    cmd = "sudo rm -rf ~/usr/local/lib/python2.7/dist-packages"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "cat " + path + "/python"
     result = "sudo pip install "
