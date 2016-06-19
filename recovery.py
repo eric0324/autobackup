@@ -85,10 +85,31 @@ def atom():
 def vim():
     cmd = "cp -p " + path + "/vim ~/.vimrc"
     result = subprocess.check_output(cmd, shell=True)
+    cmd = "rm -rf ~/.vim/bundle/*"
+    result = subprocess.check_output(cmd, shell=True)
+    cmd = "git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim"
+    result = subprocess.check_output(cmd, shell=True)
     cmd = "vim +PluginInstall +qall"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "vim +PluginClean +qall"
-    result = subprocess.check_output(cmd, shell=True)
+    
+    vim_plugins = open(os.path.expanduser('~/.vimrc'), 'r')
+    for line in vim_plugins:
+        if line == ("Plugin 'Valloric/YouCompleteMe'\n" or 
+                    "Plugin 'Valloric/YouCompleteMe'"):
+
+            cmd = "sudo apt-get install build-essential cmake"
+            result = subprocess.check_output(cmd, shell=True)
+            cmd = "sudo apt-get install python-dev python3-dev"
+            result = subprocess.check_output(cmd, shell=True)
+
+            cmd = "cd ~/.vim/bundle/YouCompleteMe;git submodule update --init --recursive"
+            result = subprocess.check_output(cmd, shell=True)
+
+            cmd = "cd ~/.vim/bundle/YouCompleteMe;./install.py --all"
+            result = subprocess.check_output(cmd, shell=True)
+            break
+
+    vim_plugins.close()
 
     print "Vim env recovery success!"
 
