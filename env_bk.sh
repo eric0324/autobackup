@@ -1,5 +1,10 @@
 #!/bin/bash
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
+nInstall=()
+job=`crontab -l 2> /dev/null | grep $SCRIPT_DIR`
+crontab -l 2> /dev/null | grep -v `pwd` | crontab -
+
 github_init() {
 	if [[ ! -e $DESDIR ]]; then
 		echo "initialization..."
@@ -10,19 +15,15 @@ github_init() {
 		exit -1
 	fi
 }
-if [[ ! -e `dirname $0`/.config ]]; then
+
+if [[ ! -e $SCRIPT_DIR/.config ]]; then
 	echo "#config
-DESDIR=/home/$USER/.env_backup
+DESDIR=$SCRIPT_DIR/autobackup
 Package=(vim ruby python atom nodejs git)
 cronCMD='@daily'
 	" > .config
 fi
-source `dirname $0`/.config
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
-echo $SCRIPT_DIR
-nInstall=()
-job=`crontab -l 2> /dev/null | grep ${PWD}`
-crontab -l 2> /dev/null | grep -v `pwd` | crontab -
+source $SCRIPT_DIR/.config
 
 case $1 in
 	-s | --scan )
@@ -101,8 +102,8 @@ case $1 in
 	-[Sm] | --set )
 		Package_bk=($(ls $DESDIR))
 		if [[ $2 == 'dir' ]] && [[ $3 != '' ]]; then
-			awk -v dir=$3 '{ if(/DESDIR/) print "DESDIR="dir; else print $0 }' `dirname $0`/.config > /tmp/config.tmp 
-			mv /tmp/config.tmp `dirname $0`/.config
+			awk -v dir=$3 '{ if(/DESDIR/) print "DESDIR="dir; else print $0 }' $SCRIPT_DIR/.config > /tmp/config.tmp 
+			mv /tmp/config.tmp $SCRIPT_DIR/.config
 			Package_bk=($(ls $3))
 		elif [[ $2 == 'timer' ]]; then
 			cronCMD="@"

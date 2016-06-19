@@ -1,4 +1,5 @@
 .config
+autobackup/
 
 # Compiled Object files
 *.slo
