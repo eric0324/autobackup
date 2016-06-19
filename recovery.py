@@ -130,7 +130,7 @@ try:
         cmd = "cat " + currentPath +"/.config"
         result = subprocess.check_output(cmd, shell=True)
         path = re.split("DESDIR=([^\n]+)", result)
-        path = path
+        path = path[1]
 except:
     print "[Error]: Wrong argument."
 
