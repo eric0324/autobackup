@@ -18,7 +18,7 @@ github_init() {
 
 if [[ ! -e $SCRIPT_DIR/.config ]]; then
 	echo "#config
-DESDIR=/home/$USER/.env_backup
+DESDIR=/home/$SCRIPT_DIR/autobackup
 Package=(vim ruby python atom nodejs git)
 cronCMD='@daily'
 	" > .config
