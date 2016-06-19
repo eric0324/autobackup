@@ -99,8 +99,6 @@ def vim():
 
             cmd = "sudo apt-get install build-essential cmake"
             result = subprocess.check_output(cmd, shell=True)
-            cmd = "sudo apt-get install python-dev python3-dev"
-            result = subprocess.check_output(cmd, shell=True)
 
             cmd = "cd ~/.vim/bundle/YouCompleteMe;git submodule update --init --recursive"
             result = subprocess.check_output(cmd, shell=True)
