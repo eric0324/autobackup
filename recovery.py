@@ -92,7 +92,7 @@ def vim():
     
     vim_plugins = open(os.path.expanduser('~/.vimrc'), 'r')
     for line in vim_plugins:
-	    line = os.linesep.join([s for s in line.splitlines() if s])
+	line = os.linesep.join([s for s in line.splitlines() if s])
         if line == ("Plugin 'Valloric/YouCompleteMe'"):
 
             print "YouCompleteMe Plugin detected:\n\tInstalling required component(s):\n\t\tcmake"
