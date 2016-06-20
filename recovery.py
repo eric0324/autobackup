@@ -96,7 +96,7 @@ def vim():
         if line == ("Plugin 'Valloric/YouCompleteMe'"):
 
             print "YouCompleteMe Plugin detected:\n\tInstalling required component(s):\n\t\tcmake"
-            cmd = "sudo apt-get install build-essential cmake"
+            cmd = "sudo apt-get install -y build-essential cmake"
             result = subprocess.check_output(cmd, shell=True)
             print "\t...done\n"
 
