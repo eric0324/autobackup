@@ -16,32 +16,65 @@ key=`cat ~/.ssh/id_rsa.pub`
 
 echo "using your ssh-key to connection github..."
 
-i="0"
 
 temp=`curl -s -u $user https://api.github.com/user/keys -d "{\"title\": \"env ssh key\",\"key\": \"$key\" }" ` 
 
-if  [ `echo $temp | grep already -c` = "1" ]||[ `echo $temp | grep tru -c` = "1"  ];then
+if  [ `echo $temp | grep Bad -c` -ge "1" ];then
+i="0"
+else
 i="1"
 fi
 
 
-if [ "$i" = '0' ]
-then
 
+
+if [ `echo $temp | grep Maximun -c` -ge "1" ];then   #github lock acc
+echo "too much woring login"
+i="0"
 until [ $i != "0" ]
 do
+echo "plz use this program later(github lock acc)"
+read user
+done
+fi
 
+
+
+
+if [ "$i" = '0' ]
+then
+until [ $i != "0" ]
+do
 echo "   "
 echo "worng username or password input again"
 echo "   "
 echo "input your github acc" 
 read user
 
+
 temp=`curl -s -u $user https://api.github.com/user/keys -d "{\"title\": \"env ssh key\",\"key\": \"$key\" }" ` 
 
-if  [ `echo $temp | grep already -c` = "1" ]||[ `echo $temp | grep tru -c` = "1"  ];then
+
+if  [ `echo $temp | grep Bad -c` -ge "1" ];then
+i="0"
+else
 i="1"
 fi
+
+
+if [ `echo $temp | grep Maximun -c` -ge "1" ];then   #github lock acc
+echo "too much woring login"
+i="0"
+until [ $i != "0" ]
+do
+echo "plz use this program later(github lock acc)"
+read user
+done
+fi
+
+
+
+
 
 done
 fi
@@ -50,27 +83,75 @@ fi
 
 
 echo "create repo..."
-i="0"
+
 echo " "
 
-i=`curl -s -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}" | grep Bad -c ` 
+temp=`curl -s -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}" ` 
 
-if [ "$i" = '1' ]
-then
 
-until [ $i != "1" ]
+if [ `echo $temp | grep Maximun -c` -ge "1" ];then   #github lock acc
+echo "too much woring login"
+i="0"
+until [ $i != "0" ]
 do
-echo "worng password input again"
+echo "plz use this program later(github lock acc)"
+read user
+done
+fi
 
-i=`curl -s -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}" | grep Bad -c ` 
+
+if  [ `echo $temp | grep already -c` -ge "1"  ];then
+i='0'
+
+echo "github repo is used  plz input your new dir name"
+read dirname
+
+elif  [ `echo $temp | grep Bad -c` -ge "1"  ];then
+i='0'
+echo "worng password input again"
+else
+i='1'
+fi
+
+
+if [ "$i" = '0' ]
+then
+until [ $i != "0" ]
+do
+
+temp=`curl -s -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}" ` 
+
+
+if [ `echo $temp | grep Maximun -c` -ge "1" ];then   #github lock acc
+echo "too much woring login"
+i="0"
+until [ $i != "0" ]
+do
+echo "plz use this program later(github lock acc)"
+read user
+done
+fi
+
+
+if  [ `echo $temp | grep already -c` -ge "1"  ];then
+i='0'
+
+echo "github repo is used  plz input your new dir name"
+read dirname
+
+elif  [ `echo $temp | grep Bad -c` -ge "1"  ];then
+i='0'
+echo "worng password input again"
+else
+i='1'
+fi
 
 done
-
 fi
 
 #......................................................................................................................
 
-ssh-add id_rsa
+ssh-add ~/.ssh/id_rsa
 
 ssh -T git@github.com
 
