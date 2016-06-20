@@ -47,15 +47,15 @@ def python():
 def ruby():
     filepath = path[1] + "/ruby"
 
-    try:
-        print "Start Ruby backup",
-        cmd = "gem list --local"
-        result = subprocess.check_output(cmd, shell=True)
-        result = result.replace(" (", "%%")
-        result = result.replace(")"," ")
-        result = result.replace("\n", "\n##")
-    except:
-        print "[Error]Ruby: Gem have some problem"
+    #try:
+    print "Start Ruby backup",
+    cmd = "gem list --local"
+    result = subprocess.check_output(cmd, shell=True)
+    result = result.replace(" (", "%%")
+    result = result.replace(")"," ")
+    result = result.replace("\n", "\n##")
+    #except:
+     #   print "[Error]Ruby: Gem have some problem"
 
     try:
         f = open(filepath, 'wb')
