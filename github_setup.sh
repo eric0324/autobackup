@@ -14,7 +14,10 @@ key=`cat ~/.ssh/id_rsa.pub`
 
 #..................................ssh.........................................................................
 
+
+
 echo "using your ssh-key to connection github..."
+
 
 i="0"
 
@@ -24,7 +27,7 @@ do
 
 temp=`curl -s -u $user https://api.github.com/user/keys -d "{\"title\": \"env ssh key\",\"key\": \"$key\" }" ` 
 
-echo $temp #########################################################################
+
 
 if  [ `echo $temp | grep Bad -c` -ge "1" ];then
 echo "   "
@@ -37,6 +40,9 @@ elif [ `echo $temp | grep Max -c` -ge "1" ];then   #github lock acc
 echo "too much woring login"
 echo "Maximum number of login attempts exceeded. Please try again later"
 i="0"
+
+exit 5
+
 else
 i="1"
 fi
@@ -60,7 +66,7 @@ do
 
 temp=`curl -s -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}" ` 
 
-echo $temp #########################################################################
+
 
 if  [ `echo $temp | grep Bad -c` -ge "1" ];then
 echo "   "
@@ -70,6 +76,9 @@ elif [ `echo $temp | grep Max -c` -ge "1" ];then   #github lock acc
 echo "too much woring login"
 echo "Maximum number of login attempts exceeded. Please try again later"
 i="0"
+
+exit 5
+
 elif  [ `echo $temp | grep already -c` -ge "1"  ];then
 
 echo "github repo is used.  please input your new repo name."
