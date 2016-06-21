@@ -9,10 +9,14 @@ github_init() {
 	if [[ ! -e $DESDIR ]]; then
 		echo "initialization..."
 		bash ./github_setup.sh $DESDIR
+		if [[ $? == 5 ]]; then
+			echo "api locked, please try again after 15 min"
+			exit 5
+		fi
 	elif [[ -f $DESDIR ]]; then
 		echo "can't create dir: $DESDIR" >&2
 		echo "automatic backup has been clear"
-		exit -1
+		exit 1
 	fi
 }
 
@@ -59,7 +63,7 @@ case $1 in
 			else 
 				echo "can not recover from $4"
 				(crontab -l; echo $job) | sort - | uniq - | crontab -
-				exit -3
+				exit 3
 			fi
 		else
 			github_init
@@ -70,7 +74,7 @@ case $1 in
 		if [[ ${#envlist[@]} == 1 ]]; then
 			echo "There is nothing to restore from $DESDIR"
 			(crontab -l; echo $job) | sort - | uniq - | crontab -
-			exit -4
+			exit 4
 		fi
 		case $# in
 			1 )
@@ -143,7 +147,7 @@ case $1 in
 		;;
 	* )
 		echo "Wrong argument: $1" >&2
-		exit -2
+		exit 2
 		;;
 esac
 (crontab -l; echo $job) | sort - | uniq - | crontab -
