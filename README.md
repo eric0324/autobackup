@@ -10,6 +10,15 @@ This README would normally document whatever steps are necessary to get the appl
 
 ## Services
 
+* `env_bk.sh -s`:  Scan your environment, create .env backup (if it does not exist), then do the first backup.
+* `env_bk.sh -r -(plugin name) (commit hash) (directory)`: Restore specified environment.`directory` as `path/dir` not necessary
+* `env_bk.sh -r`: Setting the date and environment.(Date Format:` day month year-hour min-sec`.)
+* `env_bk.sh -m (directory) `: Set other backup directory.
+* `env_bk.sh -m (timer)`: Set up automatic backup interval.
+* `env_bk.sh -d `: Stop the backup schedule.
+
+## API
+
 * `backup.py -all`:  Backup all env.
 * `backup.py -ruby`:  Backup Ruby env.
 * `backup.py -pthon`: Backup Python env.
@@ -27,6 +36,7 @@ This README would normally document whatever steps are necessary to get the appl
 * `recovery.py -atom`:  Recovery Atom env.
 * `recovery.py -git`:  Recovery git env.
 * `recovery.py -vim`:  Recovery vim env.
+
 
 ## Contributors
 * [eric0324](https://github.com/eric0324)
