@@ -35,14 +35,14 @@ def python():
     except:
         print "[Error]Python: you do not install pip"
 
-    #try:
-    f = open(filepath,'wrb')
-    f.write("##")
-    f.write(result)
-    f.close()
-    print " ..done"
-    #except:
-    print "[Error]Python: path error"
+    try:
+    	f = open(filepath,'wrb')
+    	f.write("##")
+    	f.write(result)
+    	f.close()
+    	print " ..done"
+    except:
+    	print "[Error]Python: path error"
 
 def ruby():
     filepath = path[1] + "/ruby"
