@@ -14,63 +14,88 @@ key=`cat ~/.ssh/id_rsa.pub`
 
 #..................................ssh.........................................................................
 
+
+
 echo "using your ssh-key to connection github..."
 
+
 i="0"
-
-temp=`curl -s -u $user https://api.github.com/user/keys -d "{\"title\": \"env ssh key\",\"key\": \"$key\" }" ` 
-
-if  [ `echo $temp | grep already -c` = "1" ]||[ `echo $temp | grep tru -c` = "1"  ];then
-i="1"
-fi
-
-
-if [ "$i" = '0' ]
-then
 
 until [ $i != "0" ]
 do
 
+
+temp=`curl -s -u $user https://api.github.com/user/keys -d "{\"title\": \"env ssh key\",\"key\": \"$key\" }" ` 
+
+
+
+if  [ `echo $temp | grep Bad -c` -ge "1" ];then
 echo "   "
 echo "worng username or password input again"
 echo "   "
 echo "input your github acc" 
 read user
+i="0"
+elif [ `echo $temp | grep Max -c` -ge "1" ];then   #github lock acc
+echo "too much woring login"
+echo "Maximum number of login attempts exceeded. Please try again later"
+i="0"
 
-temp=`curl -s -u $user https://api.github.com/user/keys -d "{\"title\": \"env ssh key\",\"key\": \"$key\" }" ` 
+exit 5
 
-if  [ `echo $temp | grep already -c` = "1" ]||[ `echo $temp | grep tru -c` = "1"  ];then
+else
 i="1"
 fi
 
 done
-fi
+
+
+
+
 
 #..................................repo............................................................................
 
 
 echo "create repo..."
-i="0"
 echo " "
 
-i=`curl -s -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}" | grep Bad -c ` 
+i="0"
 
-if [ "$i" = '1' ]
-then
-
-until [ $i != "1" ]
+until [ $i != "0" ]
 do
-echo "worng password input again"
 
-i=`curl -s -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}" | grep Bad -c ` 
+temp=`curl -s -u $user https://api.github.com/user/repos -d "{\"name\":\"$dirname\"}" ` 
+
+
+
+if  [ `echo $temp | grep Bad -c` -ge "1" ];then
+echo "   "
+echo "worng  password input again"
+i="0"
+elif [ `echo $temp | grep Max -c` -ge "1" ];then   #github lock acc
+echo "too much woring login"
+echo "Maximum number of login attempts exceeded. Please try again later"
+i="0"
+
+exit 5
+
+elif  [ `echo $temp | grep already -c` -ge "1"  ];then
+
+echo "github repo is used.  please input your new repo name."
+read dirname
+i='0'
+else
+i="1"
+fi
 
 done
 
-fi
+
+
 
 #......................................................................................................................
 
-ssh-add id_rsa
+ssh-add ~/.ssh/id_rsa
 
 ssh -T git@github.com
 

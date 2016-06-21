@@ -21,7 +21,7 @@ def python():
     cmd = "sudo apt-get install python-pip"
     result = subprocess.check_output(cmd, shell=True)
 
-    cmd = "rm -rf ~/usr/local/lib/python2.7/dist-packages"
+    cmd = "sudo rm -rf /usr/local/lib/python2.7/dist-packages"
     result = subprocess.check_output(cmd, shell=True)
     cmd = "cat " + path + "/python"
     result = "sudo pip install "
@@ -34,7 +34,7 @@ def python():
 
     result = subprocess.check_output(result2, shell=True)
 
-    print "Python env recovery success!"
+    print "Python env recovered successully!"
 
 def ruby():
     cmd = "sudo gem uninstall -aIx"
@@ -47,7 +47,7 @@ def ruby():
 
     result = subprocess.check_output(result2, shell=True)
 
-    print "Python env recovery success!"
+    print "Python env recovered successully!"
 
 
 def nodejs():
@@ -62,7 +62,7 @@ def nodejs():
 
     result = subprocess.check_output(result2, shell=True)
 
-    print "Nodejs env recovery success!"
+    print "Nodejs env recovered successully!"
 
 def git():
     cmd = "cp -p " + path + "/git ~/.gitconfig"
@@ -79,18 +79,33 @@ def atom():
 
     result = subprocess.check_output(result2, shell=True)
 
-    print "Atom env recovery success!"
+    print "Atom env recovered successully!"
 
 
 def vim():
     cmd = "cp -p " + path + "/vim ~/.vimrc"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "vim +PluginInstall +qall"
+    cmd = "vim +PluginClean! +qall 2> /dev/null"
     result = subprocess.check_output(cmd, shell=True)
-    cmd = "vim +PluginClean +qall"
+    cmd = "vim +PluginInstall +qall 2> /dev/null"
     result = subprocess.check_output(cmd, shell=True)
+    
+    vim_plugins = open(os.path.expanduser('~/.vimrc'), 'r')
+    for line in vim_plugins:
+	line = os.linesep.join([s for s in line.splitlines() if s])
+        if line == ("Plugin 'Valloric/YouCompleteMe'"):
 
-    print "Vim env recovery success!"
+            print "YouCompleteMe Plugin detected:\n\tInstalling required component(s):\n\t\tcmake"
+            cmd = "sudo apt-get install -y build-essential cmake"
+            result = subprocess.check_output(cmd, shell=True)
+            print "\t...done\n"
+
+            print "Required component(s) installed.\n\n******\nPlease remember to go to /home/`whoami`/.vim/bundle/YouCompleteMe directory and run the command './install.py' to install it. For more information regarding installation guide, please refer to https://github.com/Valloric/YouCompleteMe.\n*******\n"
+            break
+        
+    vim_plugins.close()
+
+    print "Vim env recovered successully!"
 
 
 
@@ -111,7 +126,7 @@ try:
         cmd = "cat " + currentPath +"/.config"
         result = subprocess.check_output(cmd, shell=True)
         path = re.split("DESDIR=([^\n]+)", result)
-        path = path
+        path = path[1]
 except:
     print "[Error]: Wrong argument."
 

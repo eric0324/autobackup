@@ -35,27 +35,27 @@ def python():
     except:
         print "[Error]Python: you do not install pip"
 
-    try:
-        f = open(filepath,'wrb')
-        f.write("##")
-        f.write(result)
-        f.close()
-        print " ..done"
-    except:
-        print "[Error]Python: path error"
+    #try:
+    f = open(filepath,'wrb')
+    f.write("##")
+    f.write(result)
+    f.close()
+    print " ..done"
+    #except:
+    print "[Error]Python: path error"
 
 def ruby():
     filepath = path[1] + "/ruby"
 
-    try:
-        print "Start Ruby backup",
-        cmd = "gem list --local"
-        result = subprocess.check_output(cmd, shell=True)
-        result = result.replace(" (", "%%")
-        result = result.replace(")"," ")
-        result = result.replace("\n", "\n##")
-    except:
-        print "[Error]Ruby: Gem have some problem"
+    #try:
+    print "Start Ruby backup",
+    cmd = "gem list --local"
+    result = subprocess.check_output(cmd, shell=True)
+    result = result.replace(" (", "%%")
+    result = result.replace(")"," ")
+    result = result.replace("\n", "\n##")
+    #except:
+     #   print "[Error]Ruby: Gem have some problem"
 
     try:
         f = open(filepath, 'wb')
